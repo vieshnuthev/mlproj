@@ -78,7 +78,7 @@ class OptimisedCNN(nn.Module):
         # Flatten
         x = x.view(x.size(0), -1) 
         
-        # Apply Dropout before the final layer[cite: 1]
+        # Apply Dropout before the final layer
         x = self.dropout(x)
         
         # Final fully connected layer
