@@ -2,9 +2,10 @@
 # Trains OptimisedCNN (from M4) across multiple random seeds
 # Reports mean ± std accuracy for statistical robustness
 
-import os
 import time
 import random
+from pathlib import Path
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -14,6 +15,11 @@ from torchvision import datasets, transforms
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report
 import seaborn as sns
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = PROJECT_ROOT / "dessert_dataset"
+OUTPUT_DIR = PROJECT_ROOT / "outputs"
+OUTPUT_DIR.mkdir(exist_ok=True)
 
 # ─────────────────────────────────────────
 # 0. CONFIG
@@ -29,10 +35,9 @@ print(f"Using device: {device}")
 # ─────────────────────────────────────────
 # 1. PATHS
 # ─────────────────────────────────────────
-current_script_dir = os.path.dirname(os.path.abspath(__file__))
-data_dir  = os.path.join(current_script_dir, 'dessert_dataset')
-train_dir = os.path.join(data_dir, 'train')
-val_dir   = os.path.join(data_dir, 'validation')
+data_dir  = DATA_DIR
+train_dir = data_dir / "train"
+val_dir   = data_dir / "validation"
 
 # ─────────────────────────────────────────
 # 2. TRANSFORMS
@@ -54,8 +59,8 @@ test_transform = transforms.Compose([
 
 # Load datasets once (transforms applied per-batch, not affected by seed)
 try:
-    train_dataset = datasets.ImageFolder(root=train_dir, transform=train_transform)
-    test_dataset  = datasets.ImageFolder(root=val_dir,   transform=test_transform)
+    train_dataset = datasets.ImageFolder(root=str(train_dir), transform=train_transform)
+    test_dataset  = datasets.ImageFolder(root=str(val_dir),   transform=test_transform)
     print(f"Train: {len(train_dataset)} | Test: {len(test_dataset)} | Classes: {len(train_dataset.classes)}")
 except FileNotFoundError as e:
     print(f"Error: {e}")
@@ -222,8 +227,9 @@ plt.ylabel('Accuracy (%)')
 plt.ylim(0, 100)
 plt.legend()
 plt.tight_layout()
-plt.savefig('m5_multi_seed_accuracy.png', dpi=150)
-print("Saved: m5_multi_seed_accuracy.png")
+out_path = OUTPUT_DIR / "milestone_5_multi_seed_accuracy.png"
+plt.savefig(out_path, dpi=150)
+print(f"Saved: {out_path}")
 plt.show()
 
 # Plot 2: Loss + Accuracy curves (best run)
@@ -248,8 +254,9 @@ axes[1].yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f'{y:.0%}'))
 axes[1].legend()
 axes[1].grid(True)
 plt.tight_layout()
-plt.savefig('m5_training_curves.png', dpi=150)
-print("Saved: m5_training_curves.png")
+out_path = OUTPUT_DIR / "milestone_5_training_curves.png"
+plt.savefig(out_path, dpi=150)
+print(f"Saved: {out_path}")
 plt.show()
 
 # Plot 3: Confusion matrix (best run)
@@ -263,8 +270,9 @@ plt.ylabel('Actual')
 plt.xticks(rotation=45, ha='right')
 plt.yticks(rotation=0)
 plt.tight_layout()
-plt.savefig('m5_confusion_matrix.png', dpi=150)
-print("Saved: m5_confusion_matrix.png")
+out_path = OUTPUT_DIR / "milestone_5_confusion_matrix.png"
+plt.savefig(out_path, dpi=150)
+print(f"Saved: {out_path}")
 plt.show()
 
 # Plot 4: Per-class accuracy (best run)
@@ -280,8 +288,9 @@ plt.xticks(rotation=45, ha='right')
 plt.ylim(0, 110)
 plt.legend()
 plt.tight_layout()
-plt.savefig('m5_per_class_accuracy.png', dpi=150)
-print("Saved: m5_per_class_accuracy.png")
+out_path = OUTPUT_DIR / "milestone_5_per_class_accuracy.png"
+plt.savefig(out_path, dpi=150)
+print(f"Saved: {out_path}")
 plt.show()
 
 # Print classification report (best run)

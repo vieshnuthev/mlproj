@@ -2,15 +2,59 @@
 
 End-to-end dessert classification project for the GitHub submission.
 
-## What This Repo Contains
+## Team Members
 
-The main entrypoint is `end_to_end_pipeline.py`. It runs the full pipeline locally:
+- ALAN SYAHMI BIN SANIH @ SANI – BI23113044
+- AZAM ABDULLAH – BI23110393
+- Khuhan A/L S Magendran – BI23110085
+- HARIESS KUMARAN – BI23110313
+- MUHAMMAD IRFAN SHAH BIN MUHAMMAD AIMAN MARAN – BI23110214
+- VIESHNU A/L VAGANANTHAN – BI23110185
+
+## Project Structure
+
+The repo is arranged so it is easier to navigate:
+
+```text
+MLproj/
+├── end_to_end_pipeline.py
+├── requirements.txt
+├── dessert_dataset/
+├── scripts/
+│   └── milestones/
+├── assets/
+│   ├── figures/
+│   └── videos/
+└── outputs/
+```
+
+Each milestone script is stored under `scripts/milestones/` so it is easier to inspect the stages separately.
+
+## Main Pipeline
+
+The main entry point is `end_to_end_pipeline.py`. It runs the full pipeline locally:
 
 1. Load the dataset from `dessert_dataset/train` and `dessert_dataset/validation`
 2. Show a sampled image grid for the data pipeline milestone
 3. Build and summarize the CNN architecture
 4. Train the model and save learning curves
 5. Run final multi-seed evaluation and export test results
+
+## Full Dataset Source
+
+This project was sampled from the full Food-101 dataset available on Kaggle:
+
+https://www.kaggle.com/datasets/hari31416/food-101
+
+Food-101 is a large benchmark image dataset with many food categories. For this project, we used the dessert portion of that dataset and organized it into training and validation folders for the milestone workflow. That keeps the project focused while still being based on a widely used real-world image classification dataset. This is also to address GitHub's limitation on uploading huge datasets (in this case, the original dataset is ~10GB after unzipped).
+
+## Setup
+
+Install the Python dependencies:
+
+```powershell
+pip install -r requirements.txt
+```
 
 ## How To Run
 
@@ -34,7 +78,7 @@ python end_to_end_pipeline.py --epochs 10 --seeds 42 123 456 --sample-per-class 
 
 ## Dataset Layout
 
-The script expects this structure:
+The scripts expect this structure:
 
 ```text
 dessert_dataset/
@@ -48,15 +92,8 @@ dessert_dataset/
     ...
 ```
 
-## Output Files
+## Outputs
 
-All generated artifacts are saved in the `outputs/` folder:
+All generated artifacts are saved in the `outputs/` folder.
 
-- `milestone_1_sample_preview.png`
-- `milestone_2_model_summary.txt`
-- `milestone_3_training_curves.png`
-- `milestone_5_multi_seed_accuracy.png`
-- `milestone_5_best_run_curves.png`
-- `milestone_5_confusion_matrix.png`
-- `milestone_5_per_class_accuracy.png`
-- `milestone_5_classification_report.txt`
+The reference images and videos used for the report are stored in `assets/figures/` and `assets/videos/`.
